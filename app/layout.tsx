@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "AI Text Humanizer",
   description: "Transform AI-generated text into natural, human-like writing with multiple style options",
-  metadataBase: new URL("https://ai-text-humanizer.vercel.app"),
+  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"),
   authors: [{ name: "bramha", url: "https://damburudhar.vercel.app" }],
   creator: "bramha",
   publisher: "bramha",
@@ -31,13 +31,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ai-text-humanizer.vercel.app",
+    url: "/",
     title: "AI Text Humanizer",
     description: "Transform AI-generated text into natural, human-like writing with multiple style options",
     siteName: "AI Text Humanizer",
     images: [
       {
-        url: "/humanizer-og.png",
+        url: "/humanizer-og.png", // This will be resolved against metadataBase
         width: 1200,
         height: 630,
         alt: "AI Text Humanizer - Transform AI-generated content into human content",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "AI Text Humanizer",
     description: "Transform AI-generated text into natural, human-like writing with multiple style options",
     creator: "@scionofshiv",
-    images: ["/humanizer-og.png"],
+    images: ["/humanizer-og.png"], // This will be resolved against metadataBase
   },
   // Verification for search engines
   verification: {
