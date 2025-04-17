@@ -57,10 +57,6 @@ const config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0  - 4px)",
-      },
-      keyframes: {
-        "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
@@ -77,5 +73,5 @@ const config = {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
-\
+
 export default config
