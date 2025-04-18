@@ -1,6 +1,7 @@
 import { TextHumanizer } from "@/components/text-humanizer"
 import { Twitter, Github, Globe, Mail } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
       <header className="flex items-center justify-between mb-16">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full overflow-hidden">
-            <Image src="/robot-head.png" alt="Robot head avatar" width={32} height={32} className="object-cover" />
+            <Image src="/Robot_head.png" alt="Robot head avatar" width={32} height={32} className="object-cover" />
           </div>
           <div>
             <h1 className="text-sm">
@@ -63,7 +64,18 @@ export default function Home() {
       </main>
 
       <footer className="mt-16 text-center text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} AI Text Humanizer</p>
+        <div className="flex flex-col items-center gap-2">
+          <p>© {new Date().getFullYear()} AI Text Humanizer</p>
+          <div className="flex items-center gap-4">
+            <Link href="/about" className="hover:text-foreground transition-colors">
+              About
+            </Link>
+            <span>•</span>
+            <a href="https://github.com/dambrubaba" className="hover:text-foreground transition-colors">
+              GitHub
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   )

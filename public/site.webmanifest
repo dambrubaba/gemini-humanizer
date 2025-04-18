@@ -3,12 +3,12 @@
   "short_name": "Humanizer",
   "icons": [
     {
-      "src": "/robot-head.png",
+      "src": "/Robot_head.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/robot-head.png",
+      "src": "/Robot_head.png",
       "sizes": "512x512",
       "type": "image/png"
     }

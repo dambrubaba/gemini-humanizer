@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "AI Text Humanizer",
     images: [
       {
-        url: "/humanizer-og.png", // Direct reference to the file in public folder
+        url: "/Humanizer_OG.png", // Correct file name
         width: 1200,
         height: 630,
         alt: "AI Text Humanizer - Transform AI-generated content into human content",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "AI Text Humanizer",
     description: "Transform AI-generated text into natural, human-like writing with multiple style options",
     creator: "@scionofshiv",
-    images: ["/humanizer-og.png"], // Direct reference to the file in public folder
+    images: ["/Humanizer_OG.png"], // Correct file name
   },
   // Verification for search engines
   verification: {
@@ -59,14 +59,11 @@ export const metadata: Metadata = {
   // Application icons
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/robot-head.png", sizes: "32x32", type: "image/png" },
+      { url: "/Robot_head.png", type: "image/png" }, // Correct file name
     ],
-    apple: [{ url: "/robot-head.png", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/Robot_head.png", sizes: "180x180", type: "image/png" }], // Correct file name
     other: [
-      { url: "/robot-head.png", sizes: "192x192", type: "image/png" },
-      { url: "/robot-head.png", sizes: "512x512", type: "image/png" },
+      { url: "/Robot_head.png", sizes: "192x192", type: "image/png" }, // Correct file name
     ],
   },
   // Web manifest
@@ -88,11 +85,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Additional favicon links for maximum compatibility */}
-        <link rel="mask-icon" href="/favicon.svg" color="#000000" />
+        <link rel="icon" href="/Robot_head.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/Robot_head.png" />
+        <meta name="msapplication-TileImage" content="/Robot_head.png" />
         <meta name="msapplication-TileColor" content="#000000" />
         {/* Explicit OG image tag as a fallback */}
-        <meta property="og:image" content="/humanizer-og.png" />
-        <meta property="twitter:image" content="/humanizer-og.png" />
+        <meta property="og:image" content="/Humanizer_OG.png" />
+        <meta property="twitter:image" content="/Humanizer_OG.png" />
       </head>
       <body className={`${jetbrainsMono.variable} font-mono`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} disableTransitionOnChange>

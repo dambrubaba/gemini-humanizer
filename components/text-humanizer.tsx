@@ -227,9 +227,9 @@ export function TextHumanizer() {
       {/* Preview section - only shown when there's input */}
       {showPreview && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:justify-between">
             <Select value={style} onValueChange={setStyle}>
-              <SelectTrigger className="w-[220px] bg-background border-border text-foreground focus:ring-0">
+              <SelectTrigger className="w-full sm:w-[220px] bg-background border-border text-foreground focus:ring-0">
                 <SelectValue placeholder="Select style" />
               </SelectTrigger>
               <SelectContent className="bg-background border-border text-foreground">
@@ -248,7 +248,7 @@ export function TextHumanizer() {
             <Button
               onClick={handleHumanize}
               disabled={loading || !inputText.trim() || cooldown > 0}
-              className="ml-2 bg-secondary hover:bg-secondary/80 text-foreground border-none"
+              className="w-full sm:w-auto bg-secondary hover:bg-secondary/80 text-foreground border-none"
             >
               {loading ? (
                 <>
@@ -283,21 +283,21 @@ export function TextHumanizer() {
                   className="min-h-[200px] bg-background border-border text-foreground focus:ring-0"
                 />
 
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button
                     variant="outline"
                     onClick={handleCopyToClipboard}
-                    className="flex-1 border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    className="flex-1 min-w-[100px] border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
                   >
                     {copied ? (
                       <>
                         <Check className="h-4 w-4 mr-2" />
-                        Copied!
+                        Copied
                       </>
                     ) : (
                       <>
                         <Copy className="h-4 w-4 mr-2" />
-                        Copy to Clipboard
+                        Copy
                       </>
                     )}
                   </Button>
@@ -305,17 +305,17 @@ export function TextHumanizer() {
                   <Button
                     variant="outline"
                     onClick={handleClearOutput}
-                    className="flex-1 border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    className="flex-1 min-w-[100px] border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
                   >
                     {cleared ? (
                       <>
                         <Check className="h-4 w-4 mr-2" />
-                        Cleared!
+                        Cleared
                       </>
                     ) : (
                       <>
                         <RotateCcw className="h-4 w-4 mr-2" />
-                        Clear Output
+                        Clear
                       </>
                     )}
                   </Button>
@@ -330,7 +330,7 @@ export function TextHumanizer() {
                   {detectingText ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Analyzing Text...
+                      Analyzing...
                     </>
                   ) : (
                     <>
@@ -358,7 +358,7 @@ export function TextHumanizer() {
 
                       <div className="space-y-2">
                         <h4 className="text-xs font-medium">Analysis Breakdown:</h4>
-                        <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                           <div>
                             <div className="flex justify-between">
                               <span>Varied Patterns:</span>

@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { formatDistanceToNow } from "date-fns"
 import type { Humanization } from "@/lib/types"
+import { Copy } from "lucide-react"
 
 export function HumanizationHistory() {
   const [humanizations, setHumanizations] = useState<Humanization[]>([])
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({})
+  const [copiedId, setCopiedId] = useState<string | null>(null)
 
   // Load history from localStorage
   useEffect(() => {
@@ -41,6 +43,16 @@ export function HumanizationHistory() {
     setHumanizations([])
   }
 
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text)
+    setCopiedId(id)
+
+    // Reset copied state after 2 seconds
+    setTimeout(() => {
+      setCopiedId(null)
+    }, 2000)
+  }
+
   if (humanizations.length === 0) {
     return <div className="text-center text-neutral-600 text-sm">No humanization history yet.</div>
   }
@@ -52,7 +64,7 @@ export function HumanizationHistory() {
           variant="outline"
           size="sm"
           onClick={clearHistory}
-          className="text-xs border-neutral-800 text-neutral-500 hover:bg-neutral-800 hover:text-neutral-300"
+          className="text-xs border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
         >
           Clear History
         </Button>
@@ -63,44 +75,49 @@ export function HumanizationHistory() {
           key={item.id}
           open={openItems[item.id]}
           onOpenChange={() => toggleItem(item.id)}
-          className="border border-neutral-800 rounded-md bg-neutral-900/30"
+          className="border border-border rounded-md bg-background/30"
         >
           <CollapsibleTrigger asChild>
-            <Button variant="ghost" className="w-full justify-between p-4 h-auto font-normal hover:bg-neutral-800/50">
+            <Button variant="ghost" className="w-full justify-between p-4 h-auto font-normal hover:bg-secondary/50">
               <div className="flex flex-col items-start text-left w-full pr-4">
-                <span className="font-medium text-neutral-400 truncate w-full">
+                <span className="font-medium text-foreground truncate w-full">
                   {item.original_text.substring(0, 60)}
                   {item.original_text.length > 60 ? "..." : ""}
                 </span>
-                <span className="text-xs text-neutral-600 mt-1 truncate w-full">
+                <span className="text-xs text-muted-foreground mt-1 truncate w-full">
                   Style: {item.style} • {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
                 </span>
               </div>
-              <span className="text-neutral-500 flex-shrink-0">{openItems[item.id] ? "▲" : "▼"}</span>
+              <span className="text-muted-foreground flex-shrink-0">{openItems[item.id] ? "▲" : "▼"}</span>
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent>
             <div className="pt-0 pb-4 px-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                 <div>
-                  <h4 className="text-xs font-medium mb-2 text-neutral-500">Original:</h4>
-                  <p className="text-sm text-neutral-400 whitespace-pre-wrap">{item.original_text}</p>
+                  <h4 className="text-xs font-medium mb-2 text-muted-foreground">Original:</h4>
+                  <p className="text-sm text-foreground whitespace-pre-wrap">{item.original_text}</p>
                 </div>
                 <div>
-                  <h4 className="text-xs font-medium mb-2 text-neutral-500">Humanized:</h4>
-                  <p className="text-sm text-neutral-400 whitespace-pre-wrap">{item.humanized_text}</p>
+                  <h4 className="text-xs font-medium mb-2 text-muted-foreground">Humanized:</h4>
+                  <p className="text-sm text-foreground whitespace-pre-wrap">{item.humanized_text}</p>
                 </div>
               </div>
               <div className="flex justify-end mt-4">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(item.humanized_text)
-                  }}
-                  className="text-xs border-neutral-800 text-neutral-500 hover:bg-neutral-800 hover:text-neutral-300"
+                  onClick={() => handleCopy(item.humanized_text, item.id)}
+                  className="text-xs border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
                 >
-                  Copy Result
+                  {copiedId === item.id ? (
+                    "Copied!"
+                  ) : (
+                    <>
+                      <Copy className="h-3 w-3 mr-1" />
+                      Copy Result
+                    </>
+                  )}
                 </Button>
               </div>
             </div>
