@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "AI Text Humanizer",
     images: [
       {
-        url: "/Humanizer_OG.png", // Correct file name
+        url: "/humanizer-og.png", // Correct file name
         width: 1200,
         height: 630,
         alt: "AI Text Humanizer - Transform AI-generated content into human content",
