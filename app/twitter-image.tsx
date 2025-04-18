@@ -14,12 +14,7 @@ export const contentType = "image/png"
 
 // Image generation
 export default async function Image() {
-  // Get the OG image from the public folder
-  const ogImageUrl = new URL(
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Humanizer%20OG-Z4ajcZU8V8yKwjI79QHJS5JaLdXFou.png",
-  )
-  const imageData = await fetch(ogImageUrl).then((res) => res.arrayBuffer())
-
+  // Use the public URL path for the OG image
   return new ImageResponse(
     <div
       style={{
@@ -32,11 +27,7 @@ export default async function Image() {
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={Buffer.from(imageData).toString("base64") || "/placeholder.svg"}
-        alt={alt}
-        style={{ width: "100%", height: "100%", objectFit: "contain" }}
-      />
+      <img src="/humanizer-og.png" alt={alt} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
     </div>,
     {
       ...size,

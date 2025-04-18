@@ -4,17 +4,15 @@ import { ImageResponse } from "next/og"
 export const runtime = "edge"
 
 // Image metadata
-export const alt = "AI Text Humanizer - Transform AI-generated content into human content"
 export const size = {
-  width: 1200,
-  height: 630,
+  width: 32,
+  height: 32,
 }
 
-export const contentType = "image/png"
+export const contentType = "image/x-icon"
 
 // Image generation
-export default async function Image() {
-  // Use the public URL path for the OG image
+export default async function Icon() {
   return new ImageResponse(
     <div
       style={{
@@ -24,10 +22,12 @@ export default async function Image() {
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: "8px",
+        overflow: "hidden",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/humanizer-og.png" alt={alt} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      <img src="/robot-head.png" alt="Robot head icon" style={{ width: "80%", height: "80%", objectFit: "contain" }} />
     </div>,
     {
       ...size,

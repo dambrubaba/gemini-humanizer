@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "AI Text Humanizer",
     images: [
       {
-        url: "/humanizer-og.png", // This will be resolved against metadataBase
+        url: "/humanizer-og.png", // Direct reference to the file in public folder
         width: 1200,
         height: 630,
         alt: "AI Text Humanizer - Transform AI-generated content into human content",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "AI Text Humanizer",
     description: "Transform AI-generated text into natural, human-like writing with multiple style options",
     creator: "@scionofshiv",
-    images: ["/humanizer-og.png"], // This will be resolved against metadataBase
+    images: ["/humanizer-og.png"], // Direct reference to the file in public folder
   },
   // Verification for search engines
   verification: {
@@ -61,13 +61,12 @@ export const metadata: Metadata = {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/robot-head.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/robot-head.png", sizes: "180x180", type: "image/png" }],
     other: [
-      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/robot-head.png", sizes: "192x192", type: "image/png" },
+      { url: "/robot-head.png", sizes: "512x512", type: "image/png" },
     ],
   },
   // Web manifest
@@ -75,7 +74,7 @@ export const metadata: Metadata = {
   // Theme color
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#000000" },
-    { media: "(prefers-color-scheme: light)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
   ],
     generator: 'v0.dev'
 }
@@ -86,20 +85,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Additional favicon links for maximum compatibility */}
         <link rel="mask-icon" href="/favicon.svg" color="#000000" />
         <meta name="msapplication-TileColor" content="#000000" />
+        {/* Explicit OG image tag as a fallback */}
+        <meta property="og:image" content="/humanizer-og.png" />
+        <meta property="twitter:image" content="/humanizer-og.png" />
       </head>
-      <body className={`${jetbrainsMono.variable} font-mono bg-black text-neutral-400`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+      <body className={`${jetbrainsMono.variable} font-mono`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} disableTransitionOnChange>
           {children}
         </ThemeProvider>
       </body>
     </html>
   )
 }
-
-
-import './globals.css'

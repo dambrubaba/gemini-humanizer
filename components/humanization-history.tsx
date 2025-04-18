@@ -67,16 +67,16 @@ export function HumanizationHistory() {
         >
           <CollapsibleTrigger asChild>
             <Button variant="ghost" className="w-full justify-between p-4 h-auto font-normal hover:bg-neutral-800/50">
-              <div className="flex flex-col items-start text-left">
-                <span className="font-medium text-neutral-400">
+              <div className="flex flex-col items-start text-left w-full pr-4">
+                <span className="font-medium text-neutral-400 truncate w-full">
                   {item.original_text.substring(0, 60)}
                   {item.original_text.length > 60 ? "..." : ""}
                 </span>
-                <span className="text-xs text-neutral-600 mt-1">
+                <span className="text-xs text-neutral-600 mt-1 truncate w-full">
                   Style: {item.style} • {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
                 </span>
               </div>
-              <span className="text-neutral-500">{openItems[item.id] ? "▲" : "▼"}</span>
+              <span className="text-neutral-500 flex-shrink-0">{openItems[item.id] ? "▲" : "▼"}</span>
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent>

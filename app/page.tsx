@@ -11,17 +11,17 @@ export default function Home() {
             <Image src="/robot-head.png" alt="Robot head avatar" width={32} height={32} className="object-cover" />
           </div>
           <div>
-            <h1 className="text-sm text-neutral-300">
-              bramha <span className="text-neutral-500">[humanizer]</span>
+            <h1 className="text-sm">
+              bramha <span className="text-muted-foreground">[humanizer]</span>
             </h1>
-            <p className="text-xs text-neutral-500">bypass AI detection</p>
+            <p className="text-xs text-muted-foreground">bypass AI detection</p>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
           <a
             href="https://x.com/scionofshiv"
-            className="text-neutral-500 hover:text-neutral-300 transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -30,7 +30,7 @@ export default function Home() {
           </a>
           <a
             href="https://github.com/dambrubaba"
-            className="text-neutral-500 hover:text-neutral-300 transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -39,7 +39,7 @@ export default function Home() {
           </a>
           <a
             href="https://damburudhar.vercel.app"
-            className="text-neutral-500 hover:text-neutral-300 transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -48,7 +48,7 @@ export default function Home() {
           </a>
           <a
             href="mailto:dambrureddy321@gmail.com"
-            className="text-neutral-500 hover:text-neutral-300 transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -62,7 +62,7 @@ export default function Home() {
         <TextHumanizer />
       </main>
 
-      <footer className="mt-16 text-center text-xs text-neutral-600">
+      <footer className="mt-16 text-center text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} AI Text Humanizer</p>
       </footer>
     </div>

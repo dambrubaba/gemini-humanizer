@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { humanizeText } from "@/lib/actions"
-import { Loader2, ArrowRight, AlertCircle } from "lucide-react"
+import { Loader2, ArrowRight, AlertCircle, Check, Copy, RotateCcw, Zap } from "lucide-react"
 import type { Humanization } from "@/lib/types"
 import { HumanizationHistory } from "@/components/humanization-history"
+import { detectAIText } from "@/lib/ai-detector"
+import { Progress } from "@/components/ui/progress"
 
 const HUMANIZATION_STYLES = [
   { value: "natural", label: "Natural Language & Flow" },
@@ -39,6 +41,21 @@ export function TextHumanizer() {
   const [showOutput, setShowOutput] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [cooldown, setCooldown] = useState(0)
+  const [copied, setCopied] = useState(false)
+  const [cleared, setCleared] = useState(false)
+  const [detectionResult, setDetectionResult] = useState<{
+    aiScore: number
+    humanScore: number
+    features: {
+      repetitivePatterns: number
+      sentenceVariability: number
+      unusualPhrasing: number
+      naturalFlow: number
+      inconsistencies: number
+    }
+  } | null>(null)
+  const [showDetectionResult, setShowDetectionResult] = useState(false)
+  const [detectingText, setDetectingText] = useState(false)
 
   // Cooldown timer
   useEffect(() => {
@@ -51,6 +68,28 @@ export function TextHumanizer() {
     return () => clearTimeout(timer)
   }, [cooldown])
 
+  // Reset copied state after 2 seconds
+  useEffect(() => {
+    if (!copied) return
+
+    const timer = setTimeout(() => {
+      setCopied(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [copied])
+
+  // Reset cleared state after 2 seconds
+  useEffect(() => {
+    if (!cleared) return
+
+    const timer = setTimeout(() => {
+      setCleared(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [cleared])
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(e.target.value)
     if (e.target.value.trim()) {
@@ -59,6 +98,9 @@ export function TextHumanizer() {
       setShowPreview(false)
       setShowOutput(false)
     }
+    // Reset detection results when input changes
+    setDetectionResult(null)
+    setShowDetectionResult(false)
   }
 
   const handleHumanize = async () => {
@@ -92,6 +134,8 @@ export function TextHumanizer() {
 
     setLoading(true)
     setError(null)
+    setDetectionResult(null)
+    setShowDetectionResult(false)
 
     try {
       // Input validation
@@ -138,6 +182,34 @@ export function TextHumanizer() {
     }
   }
 
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(outputText)
+    setCopied(true)
+  }
+
+  const handleClearOutput = () => {
+    setOutputText("")
+    setShowOutput(false)
+    setDetectionResult(null)
+    setShowDetectionResult(false)
+    setCleared(true)
+  }
+
+  const handleDetectAI = () => {
+    if (!outputText) return
+
+    setDetectingText(true)
+    setShowDetectionResult(false)
+
+    // Simulate a delay for analysis
+    setTimeout(() => {
+      const result = detectAIText(outputText)
+      setDetectionResult(result)
+      setShowDetectionResult(true)
+      setDetectingText(false)
+    }, 1500)
+  }
+
   return (
     <div className="w-full">
       {/* Search-like input field */}
@@ -146,10 +218,10 @@ export function TextHumanizer() {
           value={inputText}
           onChange={handleInputChange}
           placeholder="Paste AI-generated text here..."
-          className="min-h-[100px] resize-none bg-neutral-900 border-neutral-800 text-neutral-300 placeholder:text-neutral-600 focus:border-neutral-700 focus:ring-0"
+          className="min-h-[100px] resize-none bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-0"
           maxLength={5000}
         />
-        <div className="mt-1 text-right text-xs text-neutral-600">{inputText.length}/5000 characters</div>
+        <div className="mt-1 text-right text-xs text-muted-foreground">{inputText.length}/5000 characters</div>
       </div>
 
       {/* Preview section - only shown when there's input */}
@@ -157,15 +229,15 @@ export function TextHumanizer() {
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <Select value={style} onValueChange={setStyle}>
-              <SelectTrigger className="w-[220px] bg-neutral-900 border-neutral-800 text-neutral-300 focus:ring-0">
+              <SelectTrigger className="w-[220px] bg-background border-border text-foreground focus:ring-0">
                 <SelectValue placeholder="Select style" />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-900 border-neutral-800 text-neutral-300">
+              <SelectContent className="bg-background border-border text-foreground">
                 {HUMANIZATION_STYLES.map((style) => (
                   <SelectItem
                     key={style.value}
                     value={style.value}
-                    className="focus:bg-neutral-800 focus:text-neutral-200"
+                    className="focus:bg-secondary focus:text-foreground"
                   >
                     {style.label}
                   </SelectItem>
@@ -176,7 +248,7 @@ export function TextHumanizer() {
             <Button
               onClick={handleHumanize}
               disabled={loading || !inputText.trim() || cooldown > 0}
-              className="ml-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 border-none"
+              className="ml-2 bg-secondary hover:bg-secondary/80 text-foreground border-none"
             >
               {loading ? (
                 <>
@@ -194,7 +266,7 @@ export function TextHumanizer() {
           </div>
 
           {error && (
-            <div className="p-3 bg-red-900/20 text-red-400 text-sm rounded-md flex items-start">
+            <div className="p-3 bg-destructive/20 text-destructive text-sm rounded-md flex items-start">
               <AlertCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
               <span>{error}</span>
             </div>
@@ -202,37 +274,134 @@ export function TextHumanizer() {
 
           {/* Output section - only shown after conversion */}
           {showOutput && (
-            <div className="mt-6 p-4 border border-neutral-800 rounded-md bg-neutral-900/50">
+            <div className="mt-6 p-4 border border-border rounded-md bg-background/50">
               <div className="space-y-4">
-                <h2 className="text-sm text-neutral-400">Humanized Output</h2>
+                <h2 className="text-sm text-foreground">Humanized Output</h2>
                 <Textarea
                   value={outputText}
                   readOnly
-                  className="min-h-[200px] bg-neutral-900 border-neutral-800 text-neutral-300 focus:ring-0"
+                  className="min-h-[200px] bg-background border-border text-foreground focus:ring-0"
                 />
 
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      navigator.clipboard.writeText(outputText)
-                    }}
-                    className="flex-1 border-neutral-800 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-300"
+                    onClick={handleCopyToClipboard}
+                    className="flex-1 border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
                   >
-                    Copy to Clipboard
+                    {copied ? (
+                      <>
+                        <Check className="h-4 w-4 mr-2" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copy to Clipboard
+                      </>
+                    )}
                   </Button>
 
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      setOutputText("")
-                      setShowOutput(false)
-                    }}
-                    className="flex-1 border-neutral-800 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-300"
+                    onClick={handleClearOutput}
+                    className="flex-1 border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
                   >
-                    Clear Output
+                    {cleared ? (
+                      <>
+                        <Check className="h-4 w-4 mr-2" />
+                        Cleared!
+                      </>
+                    ) : (
+                      <>
+                        <RotateCcw className="h-4 w-4 mr-2" />
+                        Clear Output
+                      </>
+                    )}
                   </Button>
                 </div>
+
+                <Button
+                  variant="outline"
+                  onClick={handleDetectAI}
+                  disabled={detectingText}
+                  className="w-full mt-2 border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
+                >
+                  {detectingText ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Analyzing Text...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="h-4 w-4 mr-2" />
+                      Run Detection Test
+                    </>
+                  )}
+                </Button>
+
+                {showDetectionResult && detectionResult && (
+                  <div className="mt-4 p-4 border border-border rounded-md bg-background">
+                    <h3 className="text-sm font-medium mb-2">AI Detection Results</h3>
+
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span className="text-xs">Human-like: {detectionResult.humanScore}%</span>
+                          <span className="text-xs">AI-like: {detectionResult.aiScore}%</span>
+                        </div>
+                        <div className="flex h-2 rounded-full overflow-hidden">
+                          <div className="bg-green-500" style={{ width: `${detectionResult.humanScore}%` }} />
+                          <div className="bg-red-500" style={{ width: `${detectionResult.aiScore}%` }} />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-medium">Analysis Breakdown:</h4>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Varied Patterns:</span>
+                              <span>{Math.round(detectionResult.features.repetitivePatterns * 100)}%</span>
+                            </div>
+                            <Progress value={detectionResult.features.repetitivePatterns * 100} className="h-1" />
+                          </div>
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Sentence Variety:</span>
+                              <span>{Math.round(detectionResult.features.sentenceVariability * 100)}%</span>
+                            </div>
+                            <Progress value={detectionResult.features.sentenceVariability * 100} className="h-1" />
+                          </div>
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Natural Phrasing:</span>
+                              <span>{Math.round(detectionResult.features.unusualPhrasing * 100)}%</span>
+                            </div>
+                            <Progress value={detectionResult.features.unusualPhrasing * 100} className="h-1" />
+                          </div>
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Flow Quality:</span>
+                              <span>{Math.round(detectionResult.features.naturalFlow * 100)}%</span>
+                            </div>
+                            <Progress value={detectionResult.features.naturalFlow * 100} className="h-1" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-muted-foreground">
+                        {detectionResult.humanScore >= 70 ? (
+                          <p>✅ This text appears mostly human-like and should bypass most AI detectors.</p>
+                        ) : detectionResult.humanScore >= 50 ? (
+                          <p>⚠️ This text has mixed characteristics and might be flagged by some AI detectors.</p>
+                        ) : (
+                          <p>❌ This text has strong AI patterns and would likely be detected as AI-generated.</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -242,7 +411,7 @@ export function TextHumanizer() {
             <Button
               variant="ghost"
               onClick={() => setShowHistory(!showHistory)}
-              className="text-xs text-neutral-500 hover:text-neutral-300 hover:bg-transparent"
+              className="text-xs text-muted-foreground hover:text-foreground hover:bg-transparent"
             >
               {showHistory ? "Hide History" : "Show History"}
             </Button>
