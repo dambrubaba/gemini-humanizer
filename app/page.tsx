@@ -9,7 +9,7 @@ export default function Home() {
       <header className="flex items-center justify-between mb-16">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full overflow-hidden">
-            <Image src="/Robot_head.png" alt="Robot head avatar" width={32} height={32} className="object-cover" />
+            <Image src="rob-head.png" alt="Robot head avatar" width={32} height={32} className="object-cover" />
           </div>
           <div>
             <h1 className="text-sm">
