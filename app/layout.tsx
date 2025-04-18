@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "AI Text Humanizer",
     description: "Transform AI-generated text into natural, human-like writing with multiple style options",
     creator: "@scionofshiv",
-    images: ["/Humanizer_OG.png"], // Correct file name
+    images: ["/humanizer-og.png"], // Correct file name
   },
   // Verification for search engines
   verification: {
@@ -59,11 +59,11 @@ export const metadata: Metadata = {
   // Application icons
   icons: {
     icon: [
-      { url: "/Robot_head.png", type: "image/png" }, // Correct file name
+      { url: "/robot-head.png", type: "image/png" }, // Correct file name
     ],
-    apple: [{ url: "/Robot_head.png", sizes: "180x180", type: "image/png" }], // Correct file name
+    apple: [{ url: "/robot-head.png", sizes: "180x180", type: "image/png" }], // Correct file name
     other: [
-      { url: "/Robot_head.png", sizes: "192x192", type: "image/png" }, // Correct file name
+      { url: "/robot-head.png", sizes: "192x192", type: "image/png" }, // Correct file name
     ],
   },
   // Web manifest
@@ -85,13 +85,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Additional favicon links for maximum compatibility */}
-        <link rel="icon" href="/Robot_head.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/Robot_head.png" />
-        <meta name="msapplication-TileImage" content="/Robot_head.png" />
+        <link rel="icon" href="/robot-head.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/robot-head.png" />
+        <meta name="msapplication-TileImage" content="/robot-head.png" />
         <meta name="msapplication-TileColor" content="#000000" />
         {/* Explicit OG image tag as a fallback */}
-        <meta property="og:image" content="/Humanizer_OG.png" />
-        <meta property="twitter:image" content="/Humanizer_OG.png" />
+        <meta property="og:image" content="/humanizer-og.png" />
+        <meta property="twitter:image" content="/humanizer-og.png" />
       </head>
       <body className={`${jetbrainsMono.variable} font-mono`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} disableTransitionOnChange>
