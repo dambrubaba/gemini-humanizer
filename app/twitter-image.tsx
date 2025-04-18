@@ -27,7 +27,7 @@ export default async function Image() {
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/humanizer-og.png" alt={alt} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      <img src="/public/humanizer-og.png" alt={alt} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
     </div>,
     {
       ...size,
