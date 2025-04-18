@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "AI Text Humanizer",
     images: [
       {
-        url: "/public/humanizer-og.png", // Correct file name
+        url: "/humanizer-og.png", // Correct file name
         width: 1200,
         height: 630,
         alt: "AI Text Humanizer - Transform AI-generated content into human content",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "AI Text Humanizer",
     description: "Transform AI-generated text into natural, human-like writing with multiple style options",
     creator: "@scionofshiv",
-    images: ["/public/humanizer-og.png"], // Correct file name
+    images: ["/humanizer-og.png"], // Correct file name
   },
   // Verification for search engines
   verification: {
@@ -90,8 +90,8 @@ export default function RootLayout({
         <meta name="msapplication-TileImage" content="/robot-head.png" />
         <meta name="msapplication-TileColor" content="#000000" />
         {/* Explicit OG image tag as a fallback */}
-        <meta property="og:image" content="/public/humanizer-og.png" />
-        <meta property="twitter:image" content="/public/humanizer-og.png" />
+        <meta property="og:image" content="/humanizer-og.png" />
+        <meta property="twitter:image" content="/humanizer-og.png" />
       </head>
       <body className={`${jetbrainsMono.variable} font-mono`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} disableTransitionOnChange>

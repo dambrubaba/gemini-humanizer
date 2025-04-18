@@ -71,9 +71,9 @@ export default function Home() {
               About
             </Link>
             <span>•</span>
-            <a href="https://github.com/dambrubaba" className="hover:text-foreground transition-colors">
+            <Link href="https://github.com/dambrubaba" className="hover:text-foreground transition-colors">
               GitHub
-            </a>
+            </Link>
           </div>
         </div>
       </footer>
